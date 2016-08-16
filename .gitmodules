@@ -25,9 +25,6 @@
 [submodule "unittests/googletest"]
 	path = unittests/googletest
 	url = git://github.com/google/googletest.git
-[submodule "src/lib/DriverFramework"]
-	path = src/lib/DriverFramework
-	url = git://github.com/PX4/DriverFramework.git
 [submodule "src/lib/ecl"]
 	path = src/lib/ecl
 	url = git://github.com/PX4/ecl.git
@@ -40,3 +37,6 @@
 [submodule "src/lib/matrix"]
 	path = src/lib/matrix
 	url = git://github.com/PX4/Matrix.git
+[submodule "src/lib/DriverFramework"]
+	path = src/lib/DriverFramework
+	url = git://github.com/PX4/DriverFramework.git
