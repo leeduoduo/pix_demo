@@ -88,7 +88,7 @@ namespace attitude_estimator_q
 AttitudeEstimatorQ *instance;
 }
 
-
+/**/
 class AttitudeEstimatorQ
 {
 public:

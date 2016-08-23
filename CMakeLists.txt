@@ -151,7 +151,6 @@ list(GET config_args 2 LABEL)
 set(target_name "${OS}-${BOARD}-${LABEL}")
 
 message(STATUS "${target_name}")
-
 # switch to ros CMake file if building ros
 if (${OS} STREQUAL "ros")
 	include("cmake/ros-CMakeLists.txt")
@@ -230,41 +229,6 @@ foreach(var ${required_variables})
 endforeach()
 
 #=============================================================================
-# git
-#
-px4_add_git_submodule(TARGET git_genmsg PATH "Tools/genmsg")
-px4_add_git_submodule(TARGET git_gencpp PATH "Tools/gencpp")
-px4_add_git_submodule(TARGET git_mavlink PATH "mavlink/include/mavlink/v1.0")
-px4_add_git_submodule(TARGET git_gtest PATH "unittets/gtest")
-px4_add_git_submodule(TARGET git_uavcan PATH "src/modules/uavcan/libuavcan")
-px4_add_git_submodule(TARGET git_nuttx PATH "NuttX")
-px4_add_git_submodule(TARGET git_driverframework PATH "src/lib/DriverFramework")
-px4_add_git_submodule(TARGET git_ecl PATH "src/lib/ecl")
-px4_add_git_submodule(TARGET git_jmavsim PATH "Tools/jMAVSim")
-px4_add_git_submodule(TARGET git_gazebo PATH "Tools/sitl_gazebo")
-px4_add_git_submodule(TARGET git_matrix PATH "src/lib/matrix")
-px4_add_git_submodule(TARGET git_cmake_hexagon PATH "cmake/cmake_hexagon")
-
-add_custom_target(submodule_clean
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	COMMAND git submodule deinit -f .
-	COMMAND rm -rf .git/modules/*
-	)
-
-#=============================================================================
-# misc targets
-#
-add_custom_target(check_format
-	COMMAND Tools/check_code_style.sh
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-	)
-
-add_custom_target(config
-	COMMAND cmake-gui .
-	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-	)
-
-#=============================================================================
 # external libraries
 #
 px4_os_prebuild_targets(OUT prebuild_targets
@@ -299,7 +263,7 @@ add_subdirectory(msg)
 px4_generate_messages(TARGET msg_gen
 	MSG_FILES ${msg_files}
 	OS ${OS}
-	DEPENDS git_genmsg git_gencpp prebuild_targets
+	DEPENDS prebuild_targets
 	)
 px4_generate_parameters_xml(OUT parameters.xml BOARD ${BOARD})
 px4_generate_airframes_xml(OUT airframes.xml BOARD ${BOARD})
@@ -307,42 +271,11 @@ add_custom_target(xml_gen
 	DEPENDS parameters.xml airframes.xml)
 
 #=============================================================================
-# external projects
-#
-
-set(ep_base ${CMAKE_BINARY_DIR}/external)
-set_property(DIRECTORY PROPERTY EP_BASE ${ep_base})
-
-# add external project install folders to build
-link_directories(${ep_base}/Install/lib)
-include_directories(${ep_base}/Install/include)
-# add the directories so cmake won't warn
-execute_process(COMMAND cmake -E make_directory ${ep_base}/Install/lib)
-execute_process(COMMAND cmake -E make_directory ${ep_base}/Install/include)
-
-#=============================================================================
-# DriverFramework Drivers
-#
-set(df_driver_libs)
-foreach(driver ${config_df_driver_list})
-	add_subdirectory(src/lib/DriverFramework/drivers/${driver})
-	list(APPEND df_driver_libs df_${driver})
-	message("Adding DF driver: ${driver}")
-endforeach()
-
-#=============================================================================
 # subdirectories
 #
 set(module_libraries)
-foreach(module ${config_module_list})
-	string(REGEX MATCH "^[./]" external_module ${module})
-	if(external_module)
-		STRING(REGEX REPLACE "//" "/" EXT_MODULE ${module})
-		STRING(REGEX REPLACE "/" "__" EXT_MODULE_PREFIX ${EXT_MODULE})
-		add_subdirectory(${module} ${CMAKE_BINARY_DIR}/${EXT_MODULE_PREFIX})
-	else()
+foreach(module ${config_module_list})	
 		add_subdirectory(src/${module})
-	endif()
 	px4_mangle_name(${module} mangled_name)
 	list(APPEND module_libraries ${mangled_name})
 	#message(STATUS "adding module: ${module}")

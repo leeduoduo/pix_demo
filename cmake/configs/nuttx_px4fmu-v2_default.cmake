@@ -34,9 +34,9 @@ set(config_module_list
 	#drivers/hott/hott_telemetry
 	#drivers/hott/hott_sensors
 	drivers/blinkm
-	drivers/airspeed
-	drivers/ets_airspeed
-	drivers/meas_airspeed
+	#drivers/airspeed
+	#drivers/ets_airspeed
+	#drivers/meas_airspeed
 	drivers/frsky_telemetry
 	modules/sensors
 	#drivers/mkblctrl
@@ -77,14 +77,14 @@ set(config_module_list
 	modules/navigator
 	modules/mavlink
 	modules/gpio_led
-	modules/uavcan
+	#modules/uavcan
 	modules/land_detector
 
 	#
 	# Estimation modules (EKF/ SO3 / other filters)
 	#
 	modules/attitude_estimator_q
-	modules/ekf_att_pos_estimator
+	#modules/ekf_att_pos_estimator
 	modules/position_estimator_inav
 	#modules/local_position_estimator
 
@@ -92,11 +92,11 @@ set(config_module_list
 	# Vehicle Control
 	#
 	# modules/segway # XXX Needs GCC 4.7 fix
-	modules/fw_pos_control_l1
-	modules/fw_att_control
+	#modules/fw_pos_control_l1
+	#modules/fw_att_control
 	modules/mc_att_control
 	modules/mc_pos_control
-	modules/vtol_att_control
+	#modules/vtol_att_control
 
 	#
 	# Logging
@@ -120,15 +120,15 @@ set(config_module_list
 	lib/mathlib
 	lib/mathlib/math/filter
 	lib/ecl
-	lib/external_lgpl
+	#lib/external_lgpl
 	lib/geo
 	lib/geo_lookup
 	lib/conversion
-	lib/launchdetection
+	#lib/launchdetection
 	lib/terrain_estimation
-	lib/runway_takeoff
-	lib/tailsitter_recovery
+	#lib/runway_takeoff
 	lib/DriverFramework/framework
+	lib/tailsitter_recovery
 	platforms/nuttx
 
 	# had to add for cmake, not sure why wasn't in original config
@@ -179,8 +179,8 @@ set(config_io_board
 	)
 
 set(config_extra_libs
-	uavcan
-	uavcan_stm32_driver
+	#uavcan
+	#uavcan_stm32_driver
 	)
 
 set(config_io_extra_libs

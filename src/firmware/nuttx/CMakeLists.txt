@@ -29,8 +29,8 @@ endif()
 target_link_libraries(firmware_nuttx
 	-Wl,--start-group
 	${module_libraries}
-	${df_driver_libs}
-	${config_extra_libs}
+	#${df_driver_libs}
+	#${config_extra_libs}
 	${link_libs}
 	-Wl,--end-group)
 

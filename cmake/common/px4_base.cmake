@@ -877,6 +877,7 @@ function(px4_generate_parameters_xml)
 	file(GLOB_RECURSE param_src_files
 		${CMAKE_SOURCE_DIR}/src/*params.c
 		)
+	#message(STATUS "parma_src_files is " ${param_src_files})
 	add_custom_command(OUTPUT ${OUT}
 		COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Tools/px_process_params.py
 			-s ${path} --board CONFIG_ARCH_${BOARD} --xml --inject-xml
