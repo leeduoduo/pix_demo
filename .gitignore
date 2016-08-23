@@ -25,7 +25,7 @@ core
 cscope.out
 cscope.in.out
 cscope.po.out
-Firmware.sublime-project
+Firmware.sublime-workspace
 user.sublime*
 Images/*.bin
 Images/*.px4
